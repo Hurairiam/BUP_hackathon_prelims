@@ -1,0 +1,15 @@
+{
+  "scenario_id": "SAMPLE-01",
+  "battery_capacity_kwh": 220.0,
+  "initial_energy_kwh": 110.0,
+  "min_energy_kwh": 40.0,
+  "max_charge_kwh_per_hour": 50.0,
+  "max_discharge_kwh_per_hour": 50.0,
+  "demand_kwh": [42.0, 38.0, 35.0, 33.0, 34.0, 40.0, 55.0, 72.0, 88.0, 95.0, 100.0, 105.0, 108.0, 110.0, 112.0, 115.0, 118.0, 122.0, 128.0, 130.0, 120.0, 95.0, 70.0, 55.0],
+  "solar_kwh":   [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5.0, 20.0, 45.0, 70.0, 90.0, 105.0, 115.0, 110.0, 95.0, 75.0, 50.0, 25.0, 10.0, 2.0, 0.0, 0.0, 0.0, 0.0],
+  "tariff_bdt_per_kwh": [8.5, 8.0, 7.5, 7.5, 7.5, 8.0, 9.0, 10.5, 11.0, 11.0, 10.5, 10.0, 10.0, 10.5, 11.0, 11.5, 12.0, 13.0, 14.0, 14.5, 13.0, 11.0, 9.5, 9.0],
+  "operator_notes": [
+    "Facilities will wash the rooftop solar panels from noon until 2 PM. During cleaning, usable solar should be treated as roughly 25% of the forecast.",
+    "The sports office moved next month's registration deadline."
+  ]
+}
