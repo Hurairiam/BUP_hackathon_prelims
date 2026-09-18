@@ -31,6 +31,8 @@ from schemas import (
 )
 from solver import recompute_totals, solve_energy_schedule
 
+from fastapi.middleware.cors import CORSMiddleware  # added for public showcase
+
 
 # --------------------------------------------------------------------------- #
 # Logging & app setup
@@ -48,6 +50,20 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
+)
+
+# Allow the GitHub Pages showcase (and localhost dev) to call this API.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://hurairiam.github.io",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ],
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "X-LLM-Key"],
+    max_age=600,
 )
 
 

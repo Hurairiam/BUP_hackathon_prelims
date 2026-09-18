@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Cogitator-Optimus — Live Demo</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">CO</div>
+    <div>
+      <div class="brand-name">COGITATOR-OPTIMUS</div>
+      <small>SMART CAMPUS ENERGY OPTIMIZATION</small>
+    </div>
+  </div>
+  <nav>
+    <a href="#demo">Live Demo</a>
+    <a href="#how">How it works</a>
+    <a href="https://github.com/Hurairiam/BUP_hackathon_prelims" target="_blank" rel="noopener">Source ↗</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">// BUP CSE FEST 2026 — GRIDWISE TRACK — LIVE</div>
+  <h1>Grid decisions,<br/>spoken in <span>natural language</span>.</h1>
+  <p class="lede">
+    Type 1–3 plain-English operator notes below. The FastAPI service —
+    running on Render, deployed from this very repo — interprets them via an
+    LLM, validates with Pydantic v2, and solves a 24-hour minimum-cost schedule
+    with PuLP. No login. No install.
+  </p>
+</section>
+
+<section id="demo" class="card-block">
+  <h2><span class="badge">LIVE</span> Run the optimization</h2>
+
+  <div class="endpoint-row">
+    <span class="method">POST</span>
+    <code id="api-url">https://cogitator-optimus.onrender.com/optimize-energy</code>
+    <button id="copy-url" class="ghost-btn" type="button">Copy</button>
+  </div>
+
+  <div class="config-row">
+    <label>
+      <span>Groq / OpenAI key (optional, for free-tier LLM)</span>
+      <input id="llm-key" type="password" placeholder="paste gsk_... or sk-... — left blank uses the server's configured key" />
+    </label>
+    <label>
+      <span>API base URL (override only if you self-host)</span>
+      <input id="api-base" type="text" value="https://cogitator-optimus.onrender.com" />
+    </label>
+  </div>
+
+  <label class="full">
+    <span>Operator notes (1–3, plain English)</span>
+    <textarea id="notes" rows="4">Wash the rooftop solar panels from noon until 2 PM. During cleaning, usable solar should be treated as roughly 25% of the forecast.
+The sports office moved next month's registration deadline.</textarea>
+  </label>
+
+  <details class="adv">
+    <summary>Advanced — tweak the 24-hour scenario</summary>
+    <div class="adv-grid">
+      <label><span>Battery capacity (kWh)</span><input id="b-cap" type="number" value="220" step="1"></label>
+      <label><span>Initial energy (kWh)</span><input id="b-init" type="number" value="110" step="1"></label>
+      <label><span>Min energy (kWh)</span><input id="b-min" type="number" value="40" step="1"></label>
+      <label><span>Max charge / h (kWh)</span><input id="b-ch" type="number" value="50" step="1"></label>
+      <label><span>Max discharge / h (kWh)</span><input id="b-dch" type="number" value="50" step="1"></label>
+    </div>
+  </details>
+
+  <div class="actions">
+    <button id="run" class="primary-btn">Optimize 24-hour plan →</button>
+    <button id="reset" class="ghost-btn" type="button">Reset</button>
+    <span id="status" class="status"></span>
+  </div>
+</section>
+
+<section class="card-block">
+  <h2><span class="badge alt">OUTPUT</span> Plan</h2>
+  <div id="summary" class="summary-grid"></div>
+
+  <h3>Directive interpretation</h3>
+  <div id="directives" class="directives"></div>
+
+  <h3>Hourly plan</h3>
+  <div class="table-wrap">
+    <table id="plan-table">
+      <thead>
+        <tr>
+          <th>h</th><th>demand</th><th>solar used</th><th>grid</th>
+          <th>charge</th><th>discharge</th><th>SoC after</th><th>action</th>
+          <th>tariff</th>
+        </tr>
+      </thead>
+      <tbody id="plan-body"></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="how" class="card-block">
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li><strong>You type notes</strong> in plain English.</li>
+    <li><strong>FastAPI</strong> sends them to an OpenAI-compatible LLM (Groq / OpenAI / OpenRouter — auto-detected from the key prefix).</li>
+    <li><strong>Pydantic v2</strong> auto-heals malformed LLM output: hours deduped &amp; clamped, factors clamped, <code>no_op</code> enforced.</li>
+    <li><strong>PuLP</strong> solves a 24-hour linear program: minimise <code>Σ grid[h] · tariff[h]</code> subject to SoC, rate caps, end-of-day neutrality, and directive overlays.</li>
+    <li><strong>FastAPI</strong> recomputes totals, formats an <code>OptimizeResponse</code>, and streams it back here.</li>
+  </ol>
+</section>
+
+<footer>
+  <div>BUP CSE FEST <span>2026</span> · GRIDWISE TRACK</div>
+  <div>
+    <a href="https://github.com/Hurairiam/BUP_hackathon_prelims" target="_blank" rel="noopener">SOURCE</a> ·
+    <a href="https://cogitator-optimus.onrender.com/docs" target="_blank" rel="noopener">API DOCS</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

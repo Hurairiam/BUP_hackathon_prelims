@@ -469,3 +469,18 @@ variables only**.
 
 **BUP CSE Fest 2026 — GridWise Track.** Built with FastAPI, Pydantic v2, PuLP,
 and a generous amount of coffee.
+
+---
+
+## Live Demo (no install required)
+
+A static showcase site lives under `docs/` and is published via **GitHub Pages**.
+It calls the deployed FastAPI service in real time.
+
+- **Demo site**: <https://hurairiam.github.io/BUP_hackathon_prelims/>
+- **Live API**: <https://cogitator-optimus.onrender.com>
+- **Swagger**: <https://cogitator-optimus.onrender.com/docs>
+
+The site is fully self-contained — judges can type operator notes, click
+**Optimize**, and see the real Pydantic-validated + PuLP-solved 24-hour plan
+without installing anything. CORS is locked down to the GitHub Pages origin.

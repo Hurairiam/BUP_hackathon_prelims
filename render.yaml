@@ -1,0 +1,26 @@
+# --------------------------------------------------------------------------- #
+# Render Blueprint
+# Free FastAPI deployment for Cogitator-Optimus.
+# Render reads this file and provisions the service on push.
+# --------------------------------------------------------------------------- #
+services:
+  - type: web
+    name: cogitator-optimus
+    runtime: docker
+    plan: free
+    region: oregon
+    autoDeploy: true
+    healthCheckPath: /health
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: LLM_API_KEY
+        sync: false            # set this in the Render dashboard, never commit
+      - key: LLM_BASE_URL
+        value: https://api.openai.com/v1
+      - key: LLM_MODEL
+        value: gpt-4o-mini
+      - key: LLM_TIMEOUT_SECONDS
+        value: "30"
+      - key: PYTHON_VERSION
+        value: "3.11.0"
